@@ -1,43 +1,75 @@
-# CODVEDA
-# Basic Calculator
-# Codveda Technologies Internship - Task 1
+# File Encryption and Decryption System
+# Codveda Technologies Internship - Task 2
 
-def add(a, b):
-    return a + b
+def encrypt(text, shift):
+    encrypted_text = ""
 
-def subtract(a, b):
-    return a - b
+    for char in text:
+        encrypted_text += chr(ord(char) + shift)
 
-def multiply(a, b):
-    return a * b
+    return encrypted_text
 
-def divide(a, b):
-    if b == 0:
-        return "Error: Division by zero is not allowed."
-    return a / b
 
-print("===== BASIC CALCULATOR =====")
-print("1. Addition")
-print("2. Subtraction")
-print("3. Multiplication")
-print("4. Division")
+def decrypt(text, shift):
+    decrypted_text = ""
 
-choice = input("Enter your choice (1-4): ")
+    for char in text:
+        decrypted_text += chr(ord(char) - shift)
 
-num1 = float(input("Enter first number: "))
-num2 = float(input("Enter second number: "))
+    return decrypted_text
 
-if choice == '1':
-    print("Result =", add(num1, num2))
 
-elif choice == '2':
-    print("Result =", subtract(num1, num2))
+def encrypt_file(input_file, output_file, shift):
+    try:
+        with open(input_file, "r", encoding="utf-8") as file:
+            content = file.read()
 
-elif choice == '3':
-    print("Result =", multiply(num1, num2))
+        encrypted_content = encrypt(content, shift)
 
-elif choice == '4':
-    print("Result =", divide(num1, num2))
+        with open(output_file, "w", encoding="utf-8") as file:
+            file.write(encrypted_content)
+
+        print("File encrypted successfully!")
+        print("Encrypted file saved as:", output_file)
+
+    except FileNotFoundError:
+        print("Error: File not found.")
+
+
+def decrypt_file(input_file, output_file, shift):
+    try:
+        with open(input_file, "r", encoding="utf-8") as file:
+            content = file.read()
+
+        decrypted_content = decrypt(content, shift)
+
+        with open(output_file, "w", encoding="utf-8") as file:
+            file.write(decrypted_content)
+
+        print("File decrypted successfully!")
+        print("Decrypted file saved as:", output_file)
+
+    except FileNotFoundError:
+        print("Error: File not found.")
+
+
+print("===== FILE ENCRYPTION & DECRYPTION =====")
+print("1. Encrypt File")
+print("2. Decrypt File")
+
+choice = input("Enter your choice (1 or 2): ")
+shift = 3
+
+if choice == "1":
+    input_file = input("Enter file name to encrypt: ")
+    output_file = input("Enter encrypted file name: ")
+    encrypt_file(input_file, output_file, shift)
+
+elif choice == "2":
+    input_file = input("Enter file name to decrypt: ")
+    output_file = input("Enter decrypted file name: ")
+    decrypt_file(input_file, output_file, shift)
 
 else:
+    print("Invalid choice.")
     print("Invalid choice. Please select a valid operation.")
